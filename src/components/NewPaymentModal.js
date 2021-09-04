@@ -170,7 +170,8 @@ const LoginModal = (props) => {
       );
       await updateDoc(docRef, {
         id: docRef.id,
-        createdAt: serverTimestamp()
+        createdOn: serverTimestamp(),
+        lastUpdatedOn: serverTimestamp()
       });
       fetchData();
     } catch (e) {

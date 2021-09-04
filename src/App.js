@@ -9,7 +9,9 @@ import devices from "./constants/devices";
 import PaymentsList from "./components/PaymentsList";
 import AddPayment from "./components/AddPayment";
 import LoginModal from "./components/LoginModal";
+import DeleteAllModal from "./components/DeleteAllModal";
 import Totals from "./components/Totals";
+import Button from "./components/Button";
 
 const AppContainer = styled.div`
   width: 100%;
@@ -33,22 +35,28 @@ export const FirebaseContext = createContext(null);
 const App = () => {
   const [user, setUser] = useState(null);
   const [payments, setPayments] = useState(null);
+  const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
 
   const handleLogin = (value) => {
     setUser(value);
   };
 
-  function fetchData() {
-    const q = query(collection(Firebase.db, Firebase.paymentsCollection), where("deleted", "==", false))
-    getDocs(q).then(
-      (querySnapshot) => {
-        const docs = querySnapshot.docs.map((doc) => {
-          return doc.data();
-        });
+  const handleClickOnDeleteAll = () => {
+    setShowDeleteAllModal(true);
+  };
 
-        setPayments(docs);
-      }
+  function fetchData() {
+    const q = query(
+      collection(Firebase.db, Firebase.paymentsCollection),
+      where("deleted", "==", false)
     );
+    getDocs(q).then((querySnapshot) => {
+      const docs = querySnapshot.docs.map((doc) => {
+        return doc.data();
+      });
+
+      setPayments(docs);
+    });
   }
 
   useEffect(() => {
@@ -66,6 +74,19 @@ const App = () => {
               <AddPayment />
               <PaymentsList />
               <Totals />
+              <Button
+                onClick={handleClickOnDeleteAll}
+                style={{ backgroundColor: "red" }}
+              >
+                Delete all
+              </Button>
+              {showDeleteAllModal ? (
+                <DeleteAllModal
+                  handleClose={() => {
+                    setShowDeleteAllModal(false);
+                  }}
+                />
+              ) : null}
             </AppContainer>
           </FirebaseContext.Provider>
         </PaymentsContext.Provider>

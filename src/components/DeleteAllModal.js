@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { collection, updateDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore";
 
 import Firebase from "../firebase/Firebase";
 import { FirebaseContext } from "../App";
@@ -45,8 +45,8 @@ const Box = styled.div`
   margin: 10px 0;
 `;
 
-const PaymentDetailsModal = (props) => {
-  const { payment, handleClose, handleCloseForParent } = props;
+const DeleteAllModal = (props) => {
+  const { handleClose } = props;
   const fetchData = useContext(FirebaseContext);
 
   const handleClickOnShadow = (event) => {
@@ -61,31 +61,39 @@ const PaymentDetailsModal = (props) => {
     event.preventDefault();
 
     try {
-      const docRef = doc(Firebase.db, Firebase.paymentsCollection, payment.id);
-
-      await updateDoc(docRef, {
-        deleted: true,
-        lastUpdatedOn: serverTimestamp()
+      const q = query(
+        collection(Firebase.db, Firebase.paymentsCollection),
+        where("deleted", "==", false)
+      );
+      getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(doc)
+          updateDoc(doc.ref, {
+            deleted: true,
+            lastUpdatedOn: serverTimestamp(),
+          }).then(() => {
+            fetchData();
+          });
+        });
       });
-      fetchData();
-
     } catch (e) {
       alert("Error uploading payment.", e);
     }
+
     handleClose();
-    handleCloseForParent();
   };
 
   return (
     <Shadow onClick={handleClickOnShadow}>
       <Container onClick={(e) => e.stopPropagation()}>
-        <Title>Are you sure?</Title>
+        <Title>This will delete all payments</Title>
+        <Title>Are you sure you want to continue?</Title>
         <Box>
           <Button
             onClick={handleClickDelete}
             style={{ backgroundColor: "red" }}
           >
-            Yes, delete.
+            Yes, delete all.
           </Button>
         </Box>
         <Box>
@@ -98,4 +106,4 @@ const PaymentDetailsModal = (props) => {
   );
 };
 
-export default PaymentDetailsModal;
+export default DeleteAllModal;
