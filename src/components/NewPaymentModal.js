@@ -77,7 +77,14 @@ const AmountContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  margin: 20px 0 30px;
+  margin: 20px 0;
+`;
+
+const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  margin: 0 0 30px;
 `;
 
 const Label = styled.label`
@@ -101,6 +108,7 @@ const LoginModal = (props) => {
 
   const [benefactors, setBenefactors] = useState([user]);
   const [amount, setAmount] = useState("");
+    const [description, setDescription] = useState("")
 
   const handleCheckboxChange = (event) => {
     if (benefactors.includes(event.target.name)) {
@@ -114,6 +122,10 @@ const LoginModal = (props) => {
 
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
+  };
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
   };
 
   const handleClickOnShadow = (event) => {
@@ -133,6 +145,7 @@ const LoginModal = (props) => {
           amount,
           benefactors,
           user,
+          description,
           deleted: false
         }
       );
@@ -184,6 +197,10 @@ const LoginModal = (props) => {
           <Label htmlFor="amount">Amount:</Label>
           <Input id="amount" name="amount" onChange={handleAmountChange} />
         </AmountContainer>
+        <DescriptionContainer>
+          <Label htmlFor="description">Description:</Label>
+          <Input id="description" name="description" onChange={handleDescriptionChange} />
+        </DescriptionContainer>
         <Button type="submit" value="Submit">
           Submit
         </Button>

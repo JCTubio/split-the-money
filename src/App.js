@@ -31,7 +31,7 @@ export const PaymentsContext = createContext(null);
 export const FirebaseContext = createContext(null);
 
 const App = () => {
-  const [user, setUser] = useState("Gaen"); // change to null later
+  const [user, setUser] = useState(null);
   const [payments, setPayments] = useState(null);
 
   const handleLogin = (value) => {

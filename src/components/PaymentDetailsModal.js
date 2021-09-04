@@ -105,6 +105,10 @@ const PaymentDetailsModal = (props) => {
           <Subtitle>Paid: </Subtitle>
           <Subtitle>{payment.amount}</Subtitle>
         </Box>
+        <Box>
+          <Subtitle>Description: </Subtitle>
+          <Subtitle>{payment.description}</Subtitle>
+        </Box>
         <VerticalBox>
           <Subtitle>For: </Subtitle>
           <Box style={{ marginBottom: "30px" }}>
