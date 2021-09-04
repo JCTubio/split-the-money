@@ -173,7 +173,9 @@ const LoginModal = (props) => {
         createdOn: serverTimestamp(),
         lastUpdatedOn: serverTimestamp()
       });
-      fetchData();
+      setTimeout(() => {
+          fetchData();
+      }, 1000)
     } catch (e) {
       alert("Error uploading payment.", e);
     }
