@@ -67,7 +67,6 @@ const DeleteAllModal = (props) => {
       );
       getDocs(q).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            console.log(doc)
           updateDoc(doc.ref, {
             deleted: true,
             lastUpdatedOn: serverTimestamp(),
