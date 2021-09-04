@@ -114,17 +114,17 @@ const LoginModal = (props) => {
     const chars = input.split("");
     const filteredChars = chars.filter(
       (char) =>
-        char == 0 ||
-        char == 1 ||
-        char == 2 ||
-        char == 3 ||
-        char == 4 ||
-        char == 5 ||
-        char == 6 ||
-        char == 7 ||
-        char == 8 ||
-        char == 9 ||
-        char == "."
+        parseInt(char) === 0 ||
+        parseInt(char) === 1 ||
+        parseInt(char) === 2 ||
+        parseInt(char) === 3 ||
+        parseInt(char) === 4 ||
+        parseInt(char) === 5 ||
+        parseInt(char) === 6 ||
+        parseInt(char) === 7 ||
+        parseInt(char) === 8 ||
+        parseInt(char) === 9 ||
+        char === "."
     );
     return filteredChars.join("")
   };
