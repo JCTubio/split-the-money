@@ -104,11 +104,30 @@ const LoginModal = (props) => {
   const { handleClose } = props;
 
   const user = useContext(AuthContext);
-  const fetchData = useContext(FirebaseContext)
+  const fetchData = useContext(FirebaseContext);
 
   const [benefactors, setBenefactors] = useState([user]);
   const [amount, setAmount] = useState("");
-    const [description, setDescription] = useState("")
+  const [description, setDescription] = useState("");
+
+  const cleanNumericInput = (input) => {
+    const chars = input.split("");
+    const filteredChars = chars.filter(
+      (char) =>
+        char == 0 ||
+        char == 1 ||
+        char == 2 ||
+        char == 3 ||
+        char == 4 ||
+        char == 5 ||
+        char == 6 ||
+        char == 7 ||
+        char == 8 ||
+        char == 9 ||
+        char == "."
+    );
+    return filteredChars.join("")
+  };
 
   const handleCheckboxChange = (event) => {
     if (benefactors.includes(event.target.name)) {
@@ -142,17 +161,17 @@ const LoginModal = (props) => {
       const docRef = await addDoc(
         collection(Firebase.db, Firebase.paymentsCollection),
         {
-          amount,
+          amount: cleanNumericInput(amount),
           benefactors,
           user,
           description,
-          deleted: false
+          deleted: false,
         }
       );
       await updateDoc(docRef, {
         id: docRef.id,
       });
-      fetchData()
+      fetchData();
     } catch (e) {
       alert("Error uploading payment.", e);
     }
@@ -161,7 +180,7 @@ const LoginModal = (props) => {
 
   return (
     <Shadow onClick={handleClickOnShadow}>
-      <Container onClick={e => e.stopPropagation()} onSubmit={onSubmit}>
+      <Container onClick={(e) => e.stopPropagation()} onSubmit={onSubmit}>
         <Title>Add a new payment</Title>
         <Subtitle>Who should split it?</Subtitle>
         <CheckboxContainer>
@@ -199,7 +218,11 @@ const LoginModal = (props) => {
         </AmountContainer>
         <DescriptionContainer>
           <Label htmlFor="description">Description:</Label>
-          <Input id="description" name="description" onChange={handleDescriptionChange} />
+          <Input
+            id="description"
+            name="description"
+            onChange={handleDescriptionChange}
+          />
         </DescriptionContainer>
         <Button type="submit" value="Submit">
           Submit
