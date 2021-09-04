@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { collection, addDoc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 
 import Firebase from "../firebase/Firebase";
 import { AuthContext, FirebaseContext } from "../App";
@@ -170,6 +170,7 @@ const LoginModal = (props) => {
       );
       await updateDoc(docRef, {
         id: docRef.id,
+        createdAt: serverTimestamp()
       });
       fetchData();
     } catch (e) {
