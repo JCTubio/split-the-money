@@ -74,12 +74,14 @@ const App = () => {
               <AddPayment />
               <PaymentsList />
               <Totals />
-              <Button
-                onClick={handleClickOnDeleteAll}
-                style={{ backgroundColor: "red" }}
-              >
-                Delete all
-              </Button>
+              {user === "Juan Cruz" ? (
+                <Button
+                  onClick={handleClickOnDeleteAll}
+                  style={{ backgroundColor: "red" }}
+                >
+                  Delete all
+                </Button>
+              ) : null}
               {showDeleteAllModal ? (
                 <DeleteAllModal
                   handleClose={() => {

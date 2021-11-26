@@ -72,11 +72,11 @@ const Submit = styled.input`
 
 const LoginModal = (props) => {
   const { handleSubmit } = props;
-  const [value, setValue] = useState("");
+  const [user, setUser] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState(false);
 
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setUser(event.target.user);
   };
 
   const handlePasswordVisibilityChange = (event) => {
@@ -86,7 +86,7 @@ const LoginModal = (props) => {
   const onSubmit = (event) => {
     event.preventDefault();
 
-    switch (value) {
+    switch (user) {
       case JUAN_CRUZ_PASSWORD:
         handleSubmit("Juan Cruz");
         break;
