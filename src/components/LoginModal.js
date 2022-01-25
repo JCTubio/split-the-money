@@ -76,7 +76,7 @@ const LoginModal = (props) => {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
 
   const handleChange = (event) => {
-    setUser(event.target.user);
+    setUser(event.target.value);
   };
 
   const handlePasswordVisibilityChange = (event) => {
